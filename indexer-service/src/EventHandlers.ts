@@ -9,7 +9,11 @@ import {
 } from "generated";
 
 Registry.InitContractEvent.loader(async ({ event, context }) => {
-  context.contractRegistration.addContract(event.contractId.toString());
+  console.log(
+    "LOADING CONTRACT REGISTRATION: ",
+    event.data
+  );
+  context.contractRegistration.addContract(event.data.contract_id.bits);
 });
 
 Registry.InitContractEvent.handler(async ({ event, context }) => {
