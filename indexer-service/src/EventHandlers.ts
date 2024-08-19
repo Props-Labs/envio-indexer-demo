@@ -8,6 +8,10 @@ import {
   TestEvent
 } from "generated";
 
+Registry.InitContractEvent.loader(async ({ event, context }) => {
+  context.contractRegistration.addContract(event.contractId.toString());
+});
+
 Registry.InitContractEvent.handler(async ({ event, context }) => {
   const entity: InitContractEvent = {
     id: `${event.chainId}_${event.transactionId}_${event.receiptIndex}`,
