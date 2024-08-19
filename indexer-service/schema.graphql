@@ -1,0 +1,17 @@
+type InitContractEvent {
+  id: ID!
+  transaction_id: String!
+  time: Int!
+  chain_id: Int!
+  block_number: Int!
+  contract_id: String!
+  owner: String!
+  name: String!
+}
+
+type TestEvent {
+  id: ID!
+  amount: BigInt!
+}
+
+

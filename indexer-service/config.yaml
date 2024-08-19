@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=./node_modules/envio/fuel.schema.json
+name: props-indexer
+ecosystem: fuel
+networks:
+- id: 0
+  start_block: 0
+  contracts:
+  - name: Registry
+    address:
+    - 0x87ce4566ee0d88f6a498885ed17716022543f2fc4dbfef691b26a18b94d25fb4
+    abi_file_path: abis/Registry-contract-abi.json
+    handler: src/EventHandlers.ts
+    events:
+    - name: InitContractEvent
+  - name: Contract
+    abi_file_path: abis/Contract-contract-abi.json
+    handler: src/EventHandlers.ts
+    events:
+    - name: TestEvent
+

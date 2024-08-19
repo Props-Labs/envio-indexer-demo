@@ -1,0 +1,46 @@
+import { HyperfuelClient } from "@envio-dev/hyperfuel-client";
+import { AbiCoder, arrayify, JsonAbiArgument } from "fuels";
+import { Props721EditionContractAbi__factory} from './sway-api/contracts'
+
+
+async function main() {
+  const client = HyperfuelClient.new({
+    url: "https://fuel-testnet.hypersync.xyz"
+  });
+
+  // contract(s) we want logs from
+  const contracts = ["0x1c3902d79cdf33e2438ab973c68ffc728515ae128995f9eeaa3883094d2bfaff"]
+
+  // get logs from blocks 0(inclusive) to 1627509(exclusive)
+  const logs = await client.presetQueryGetLogs(contracts, 0, 7741159);
+  
+  
+
+  console.log(`number of logs: ${logs.data.length}`);
+  console.log(`logs: ${JSON.stringify(logs.data)}`);
+
+  const argument: JsonAbiArgument = {
+    "name": "current_time",
+    "type": 38,
+    "typeArguments": null
+  } as JsonAbiArgument;
+
+    // const [decodedReturnData] = AbiCoder.decode(Props721EditionContractAbi__factory.abi, argument, logs.data, 0);
+
+  for (let log of logs.data) {
+    try {
+      if (log.data) {
+        const returnData = arrayify(log.data);
+        const [decodedReturnData] = AbiCoder.decode(Props721EditionContractAbi__factory.abi, argument, returnData, 0);
+        console.log("Decoded data:", Number(decodedReturnData));
+      } else {
+        console.warn("Log data is undefined, skipping...");
+      }
+    } catch (e) {
+      console.error("Error decoding log:", e);
+    }
+  }
+
+}
+
+main();
